@@ -1,0 +1,43 @@
+load("@rules_proto_grpc//cpp:defs.bzl", "cpp_grpc_library")
+
+cpp_grpc_library(
+    name = "grpc_libs",
+    protos = [
+        "@com_envoyproxy_protoc_gen_validate//validate:validate_proto",
+        "@com_github_cncf_udpa//udpa/annotations:pkg",
+        "@com_github_cncf_udpa//xds/annotations/v3:pkg",
+        "@com_github_cncf_udpa//xds/core/v3:pkg",
+        "@com_google_googleapis//google/rpc:code_proto",
+        "@com_google_googleapis//google/rpc:status_proto",
+        "@data_plane_api//envoy/annotations:pkg",
+        "@data_plane_api//envoy/config/common/mutation_rules/v3:pkg",
+        "@data_plane_api//envoy/config/core/v3:pkg",
+        "@data_plane_api//envoy/extensions/filters/http/ext_proc/v3:pkg",
+        "@data_plane_api//envoy/service/ext_proc/v3:pkg",
+        "@data_plane_api//envoy/type/matcher/v3:pkg",
+        "@data_plane_api//envoy/type/v3:pkg",
+    ],
+)
+
+cc_binary(
+    name = "gcp-traffic-extension",
+    srcs = [
+        "external_processor.h",
+        "external_processor.cc",
+        "main.cc",
+        "utils.h",
+        "utils.cc",
+    ],
+    linkopts = ["-static"],
+    linkstatic = 1,
+    deps = [
+        "@com_google_absl//absl/flags:flag",
+        "@com_google_absl//absl/flags:parse",
+        "@com_google_absl//absl/flags:usage",
+        "@com_google_absl//absl/strings",
+        "@com_google_absl//absl/log:initialize",
+        "@com_google_absl//absl/log",
+        "@com_google_absl//absl/log:flags",
+        ":grpc_libs",
+    ],
+)

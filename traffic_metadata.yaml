@@ -1,0 +1,17 @@
+name: test-traffic-extension
+loadBalancingScheme: EXTERNAL_MANAGED
+forwardingRules:
+ - https://www.googleapis.com/compute/v1/projects//regions/REPLACE
+extensionChains:
+- name: "test-traffic-extension-chain"
+  matchCondition:
+    celExpression: 'request.path.startsWith("/")'
+  extensions:
+  - name: 'test-traffic-extension'
+    authority: example.com
+    service: https://www.googleapis.com/compute/v1/projects/REPLACE
+    failOpen: false
+    timeout: 1s
+    supportedEvents:
+    - REQUEST_HEADERS
+    #- REQUEST_BODY # seems like enabling this event does nothing
