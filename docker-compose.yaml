@@ -1,0 +1,29 @@
+services:
+  traffic-extension:
+    build: .
+    expose:
+      - 50051
+    depends_on:
+      - envoy
+    networks:
+      - traffic-extension-net
+  envoy:
+    image: envoyproxy/envoy:v1.33-latest
+    command:
+      # uncomment to enable Debug logging
+      #- --component-log-level filter:debug,grpc:debug,ext_proc:trace,health_checker:debug
+      #- -l info
+      - -l warning
+      - --config-path /etc/envoy/envoy.yaml
+    volumes:
+      - ./envoy.yaml:/etc/envoy/envoy.yaml
+    expose:
+      - 8080
+    ports:
+      - 8080:8080
+    networks:
+      - traffic-extension-net
+
+networks:
+  traffic-extension-net:
+    driver: bridge

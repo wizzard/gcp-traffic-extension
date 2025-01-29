@@ -1,14 +1,6 @@
 # gcp-traffic-extension
 A simple GCP traffic extension in C++
 
-## Local test with Envoy
-
-* requires Bazel v7.4 (not yet supported Bzlmod)
-* run `./build_local.sh`
-* generate certs: `openssl req -x509 -nodes -days 36500 -newkey rsa:2048 -keyout server.key -out server.crt -subj "/C=US/ST=State/L=City/O=Organization/OU=Unit/CN=example.com" && cat server.crt server.key > server.pem`
-* run `./bazel-bin/src/gcp-traffic-extension --cert_dir .`
-* adjust enovy `ext_proc` settings
-
 ## GCP LB test
 
 * follow the guides:
@@ -24,6 +16,12 @@ gcloud service-extensions lb-traffic-extensions import [NAME] \
     --source=traffic-ext-test.yaml \
     --location=[REGION]
 ```
+
+## Local test with Envoy
+
+* execute `docker-compose build && docker-compose up`
+* Envoy will listen on 127.0.0.1:8080
+
 
 ## Sending requests
 

@@ -53,7 +53,7 @@ Status TestExternalProcessor::Process(ServerContext *context, ServerReaderWriter
 
             ProcessingResponse header_resp;
             header_resp.mutable_request_headers();
-            //if (found) {
+            if (found) {
                 LOG(INFO) << "ENABLING ProcessingMode::STREAMED";
 
                 // Enable kRequestBody event
@@ -64,7 +64,7 @@ Status TestExternalProcessor::Process(ServerContext *context, ServerReaderWriter
 
                 // XXX: seems like this is not working
                 //override->set_request_body_mode(ProcessingMode::BUFFERED);
-            //}
+            }
 
             stream->Write(header_resp);
 

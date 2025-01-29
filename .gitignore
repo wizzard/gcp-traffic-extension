@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+
+MODULE.bazel
+MODULE.bazel.lock
+bazel-bin
+bazel-gcp-traffic-extension
+bazel-out
+bazel-testlogs
